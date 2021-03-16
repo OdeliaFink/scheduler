@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 export default function InterviewListItem(props) {
   const interviewListItemClass = classnames('interviews__item', {
-    'interviews__item--selected': props.selected,
+    'interviewers__item--selected': props.selected,
   });
 
   const interviewerImageClass = classnames('interviewers__item-image', {
