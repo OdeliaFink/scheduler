@@ -1,5 +1,5 @@
 //... returns an array of appointments for that day
-export function getAppointmentsForDay(state, day) {
+export default function getAppointmentsForDay(state, day) {
   let appointmentsArrayForDay = [];
   let filterAppointments = [];
 

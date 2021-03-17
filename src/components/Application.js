@@ -3,25 +3,7 @@ import axios from 'axios';
 import DayList from './DayList';
 import Appointment from './appointments';
 import 'components/Application.scss';
-
-const appointments = [
-  {
-    id: 1,
-    time: '12pm',
-  },
-  {
-    id: 2,
-    time: '1pm',
-    interview: {
-      student: 'Lydia Miller-Jones',
-      interviewer: {
-        id: 1,
-        name: 'Sylvia Palmer',
-        avatar: 'https://i.imgur.com/LpaY82x.png',
-      },
-    },
-  },
-];
+import getAppointmentsForDay from '../helpers/selectors';
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -30,15 +12,20 @@ export default function Application(props) {
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
   });
-
+  const dailyAppointments = [];
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
   const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   useEffect(() => {
-    axios.get('api/days').then((response) => {
-      setDays(response.data);
-      console.log(response.data);
-    });
+    Promise.all([axios.get('/api/days'), axios.get('/api/appointments')]).then(
+      (all) => {
+        setState((prev) => ({
+          ...prev,
+          days: all[0].data,
+          appointments: all[1].data,
+        }));
+      }
+    );
   }, []);
 
   return (
@@ -61,7 +48,7 @@ export default function Application(props) {
         {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
       </section>
       <section className="schedule">
-        {appointments.map((appointment) => (
+        {getAppointmentsForDay(state, state.day).map((appointment) => (
           <Appointment key={appointment.id} {...appointment} />
         ))}
         <Appointment key="last" time="5pm" />
