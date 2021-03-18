@@ -18,7 +18,7 @@ export function getInterview(state, interview) {
   if (interview === null) {
     return null;
   }
-  console.log('state', state);
+
   return {
     ...interview,
     interviewer: state.interviewers[interview.interviewer],

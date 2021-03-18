@@ -12,6 +12,7 @@ export default function Application(props) {
     interviewers: {},
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
+    interviewers: {},
   });
   const dailyAppointments = [];
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
