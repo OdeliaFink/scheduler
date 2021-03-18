@@ -1,5 +1,5 @@
 //... returns an array of appointments for that day
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
   let appointmentsArrayForDay = [];
   let filterAppointments = [];
 
@@ -14,11 +14,11 @@ export default function getAppointmentsForDay(state, day) {
   return filterAppointments;
 }
 
-export default function getInterview(state, interview) {
+export function getInterview(state, interview) {
   if (interview === null) {
     return null;
   }
-
+  console.log('state', state);
   return {
     ...interview,
     interviewer: state.interviewers[interview.interviewer],
