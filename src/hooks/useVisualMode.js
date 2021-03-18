@@ -2,12 +2,20 @@ import { useState } from 'react';
 
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
+  const [history, setHistory] = useState([initial]);
 
-  function useCustomHook() {
-    function action() {}
+  function transition(updateMode, replace = false) {
+    setMode(updateMode);
 
-    return { action };
+    if (replace) {
+      setHistory([...history.slice(0, -1), updateMode]);
+    } else {
+      setHistory([...history, updateMode]);
+    }
+  }
+  function back() {
+    /* ... */
   }
 
-  return { mode };
+  return { mode, transition, back };
 }
