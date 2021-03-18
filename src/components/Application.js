@@ -9,6 +9,7 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
+    interviewers: {},
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
   });
@@ -17,17 +18,23 @@ export default function Application(props) {
   const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   useEffect(() => {
-    Promise.all([axios.get('/api/days'), axios.get('/api/appointments')]).then(
-      (all) => {
-        setState((prev) => ({
-          ...prev,
-          days: all[0].data,
-          appointments: all[1].data,
-        }));
-      }
-    );
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers'),
+    ]).then((all) => {
+      setState((prev) => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
   }, []);
-
+  const appointments = getAppointmentsForDay(
+    state,
+    state.day
+  ).map((appointment) => <Appointment key={appointment.id} {...appointment} />);
   return (
     <main className="layout">
       <section className="sidebar">
@@ -48,9 +55,7 @@ export default function Application(props) {
         {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
       </section>
       <section className="schedule">
-        {getAppointmentsForDay(state, state.day).map((appointment) => (
-          <Appointment key={appointment.id} {...appointment} />
-        ))}
+        {appointments}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
