@@ -13,3 +13,14 @@ export default function getAppointmentsForDay(state, day) {
   }
   return filterAppointments;
 }
+
+export default function getInterview(state, interview) {
+  if (interview === null) {
+    return null;
+  }
+
+  return {
+    ...interview,
+    interviewer: state.interviewers[interview.interviewer],
+  };
+}
