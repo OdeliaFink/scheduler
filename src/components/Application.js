@@ -46,11 +46,26 @@ export default function Application(props) {
     };
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({ ...state, appointments: allAppointments }))
-      .catch((error) => console.log(error));
+      .then(() => setState({ ...state, appointments: allAppointments }));
+    // .catch((error) => console.log(error));
   }
 
-  //const interview = getInterview(state, appointment.interview)
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+
+    const allAppointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios
+      .delete(`api/appointments/${id}`)
+      .then(() => setState({ ...state, appointments: allAppointments }));
+  }
+
   const schedule = getAppointmentsForDay(
     state,
     state.day
@@ -61,6 +76,7 @@ export default function Application(props) {
       interviewers={getInterviewersForDay(state, state.day)}
       bookInterview={bookInterview}
       interview={getInterview(state, appointment.interview)}
+      cancelInterview={cancelInterview}
     />
   ));
   return (
