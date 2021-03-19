@@ -13,9 +13,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
-    interviewers: {},
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
+    interviewers: {},
   });
   const dailyAppointments = [];
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
@@ -41,19 +40,18 @@ export default function Application(props) {
       ...state.appointments[id],
       interview: { ...interview },
     };
-
-    const appointments = {
+    const allAppointments = {
       ...state.appointments,
       [id]: appointment,
     };
-
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({ ...state, appointments }))
+      .then(() => setState({ ...state, appointments: allAppointments }))
       .catch((error) => console.log(error));
   }
 
-  const appointments = getAppointmentsForDay(
+  //const interview = getInterview(state, appointment.interview)
+  const schedule = getAppointmentsForDay(
     state,
     state.day
   ).map((appointment) => (
@@ -62,6 +60,7 @@ export default function Application(props) {
       time={appointment.time}
       interviewers={getInterviewersForDay(state, state.day)}
       bookInterview={bookInterview}
+      interview={getInterview(state, appointment.interview)}
     />
   ));
   return (
@@ -84,7 +83,7 @@ export default function Application(props) {
         {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
       </section>
       <section className="schedule">
-        {appointments}
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>

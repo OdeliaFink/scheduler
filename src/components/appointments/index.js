@@ -4,12 +4,14 @@ import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
 import Form from './Form';
+import Status from './Status';
 
 import 'components/appointments/styles.scss';
 
 const EMPTY = 'EMPTY';
 const SHOW = 'SHOW';
 const CREATE = 'CREATE';
+const SAVING = 'SAVING';
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -21,6 +23,10 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
+    transition(SAVING);
+    Promise.resolve(props.bookInterview(props.id, interview))
+      .then(() => transition(SHOW))
+      .catch((error) => console.log(error));
   }
 
   return (
@@ -40,6 +46,8 @@ export default function Appointment(props) {
           onSave={save}
         />
       )}
+
+      {mode === SAVING && <Status message="Saving" />}
     </article>
   );
 }
