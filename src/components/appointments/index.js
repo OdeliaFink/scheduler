@@ -3,6 +3,7 @@ import useVisualMode from '../../hooks/useVisualMode';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
+import Form from './Form';
 
 import 'components/appointments/styles.scss';
 
@@ -25,7 +26,9 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer}
         />
       )}
-      {mode === CREATE && <Form interviewers={[]} onCancel={() => back()} />}
+      {mode === CREATE && (
+        <Form interviewers={props.interviewers} onCancel={() => back()} />
+      )}
     </article>
   );
 }

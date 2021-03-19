@@ -1,20 +1,20 @@
 //... returns an array of appointments for that day
-export function getAppointmentsForDay(state, day) {
-  let appointmentsArrayForDay = [];
-  let filterAppointments = [];
+function getAppointmentsForDay(state, day) {
+  let arrAppointmentsForDay = [];
+  let filteredAppointment = [];
 
-  for (let specificDayObj of state.days) {
-    if (specificDayObj.name === day) {
-      appointmentsArrayForDay = specificDayObj.appointments;
+  for (let objSpecificDay of state.days) {
+    if (objSpecificDay.name === day) {
+      arrAppointmentsForDay = objSpecificDay.appointments;
     }
   }
-  for (let appointment of appointmentsArrayForDay) {
-    filterAppointments.push(state.appointments[appointment]);
+  for (let appointment of arrAppointmentsForDay) {
+    filteredAppointment.push(state.appointments[appointment]);
   }
-  return filterAppointments;
+  return filteredAppointment;
 }
 
-export function getInterview(state, interview) {
+function getInterview(state, interview) {
   if (interview === null) {
     return null;
   }
@@ -24,3 +24,20 @@ export function getInterview(state, interview) {
     interviewer: state.interviewers[interview.interviewer],
   };
 }
+
+function getInterviewersForDay(state, day) {
+  let arrInterviewersForDay = [];
+  let filteredInterviewers = [];
+
+  for (let objSpecificDay of state.days) {
+    if (objSpecificDay.name === day) {
+      arrInterviewersForDay = objSpecificDay.interviewers;
+    }
+  }
+  for (let interviewer of arrInterviewersForDay) {
+    filteredInterviewers.push(state.interviewers[interviewer]);
+  }
+  return filteredInterviewers;
+}
+
+export { getAppointmentsForDay, getInterview, getInterviewersForDay };
