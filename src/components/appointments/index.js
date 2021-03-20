@@ -6,6 +6,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 import 'components/appointments/styles.scss';
 
@@ -16,6 +17,8 @@ const SAVING = 'SAVING';
 const DELETE = 'DELETE';
 const CONFIRM = 'CONFIRM';
 const EDIT = 'EDIT';
+const ERROR_SAVE = 'ERROR_SAVE';
+const ERROR_DELETE = 'ERROR_DELETE';
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -29,14 +32,14 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     Promise.resolve(props.bookInterview(props.id, interview)).then(() =>
-      transition(SHOW)
+      transition(SHOW).catch((error) => transition(ERROR_SAVE, true))
     );
   }
-  function deleteAppointment() {
-    transition(DELETE);
-    Promise.resolve(props.cancelInterview(props.id)).then(() =>
-      transition(EMPTY)
-    );
+  function destroy() {
+    transition(DELETE, true);
+    Promise.resolve(props.cancelInterview(props.id))
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   return (
@@ -63,7 +66,7 @@ export default function Appointment(props) {
       {mode === CONFIRM && (
         <Confirm
           message="Are you sure you want to delete your appointment?"
-          onConfirm={deleteAppointment}
+          onConfirm={destroy}
           onCancel={() => back()}
         />
       )}
