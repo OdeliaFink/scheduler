@@ -10,11 +10,6 @@ import {
 import useApplicationData from '../hooks/useApplicationData';
 
 export default function Application(props) {
-  // const schedule = getAppointmentsForDay(
-  //   state,
-  //   state.day
-  // ).map((appointment) => (
-
   const {
     state,
     setDay,

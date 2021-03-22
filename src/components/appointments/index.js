@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import useVisualMode from '../../hooks/useVisualMode';
 import Header from './Header';
 import Show from './Show';
@@ -24,6 +24,14 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+      transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+      transition(EMPTY);
+    }
+  }, [transition, mode, props.interview]);
 
   function save(name, interviewer) {
     const interview = {
@@ -31,9 +39,9 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    Promise.resolve(props.bookInterview(props.id, interview)).then(() =>
-      transition(SHOW).catch((error) => transition(ERROR_SAVE, true))
-    );
+    Promise.resolve(props.bookInterview(props.id, interview))
+      .then(() => transition(SHOW))
+      .catch((error) => transition(ERROR_SAVE, true));
   }
   function destroy() {
     transition(DELETE, true);
@@ -49,8 +57,8 @@ export default function Appointment(props) {
       {mode === SHOW && (
         <Show
           id={props.id}
-          student={props.interview.student}
-          interviewer={props.interview.interviewer}
+          student={props.interview && props.interview.student}
+          interviewer={props.interview && props.interview.interviewer}
           onDelete={() => transition(CONFIRM)}
           onEdit={() => transition(EDIT)}
         />

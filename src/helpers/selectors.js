@@ -11,6 +11,7 @@ function getAppointmentsForDay(state, day) {
   for (let appointment of arrAppointmentsForDay) {
     filteredAppointment.push(state.appointments[appointment]);
   }
+  console.log('filtered apt', filteredAppointment);
   return filteredAppointment;
 }
 
@@ -19,10 +20,12 @@ function getInterview(state, interview) {
     return null;
   }
 
-  return {
+  const result = {
     ...interview,
     interviewer: state.interviewers[interview.interviewer],
   };
+  console.log('result', result);
+  return result;
 }
 
 function getInterviewersForDay(state, day) {
@@ -37,6 +40,7 @@ function getInterviewersForDay(state, day) {
   for (let interviewer of arrInterviewersForDay) {
     filteredInterviewers.push(state.interviewers[interviewer]);
   }
+  console.log('filtered interviewers', filteredInterviewers);
   return filteredInterviewers;
 }
 
