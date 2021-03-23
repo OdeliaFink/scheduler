@@ -81,7 +81,6 @@ export default {
   }),
   put: jest.fn((url) => {
     if (url === '/api/appointments/1') {
-      console.log('MOCK PUT');
       return Promise.resolve({
         status: 204,
         statusText: 'Test',
