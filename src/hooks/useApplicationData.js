@@ -9,31 +9,10 @@ export default function useApplicationData(initial) {
     interviewers: {},
   });
 
-  // const dailyAppointments = [];
   const setDay = (day) => setState((prev) => ({ ...prev, day }));
   // const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   const spotCounter = (action) => {
-    // if (action === 'book') {
-    //   const updateSpots = { ...state.days };
-    //   for (let spot in updateSpots) {
-    //     if (updateSpots[spot].name === state.day) {
-    //       updateSpots[spot].spots -= 1;
-    //     }
-    //   }
-
-    //   setState({ ...state, days: [updateSpots] });
-    // } else if (action === 'cancel') {
-    //   const updateSpots = { ...state.days };
-
-    //   for (let spot in updateSpots) {
-    //     if (updateSpots[spot].name === state.day) {
-    //       updateSpots[spot].spots += 1;
-    //     }
-    //   }
-    //   setState({ ...state, days: [updateSpots] });
-    // }
-
     const copyOfDaysArray = [...state.days];
     const modifier = action === 'book' ? -1 : 1;
 
@@ -55,26 +34,6 @@ export default function useApplicationData(initial) {
       [id]: appointment,
     };
     spotCounter('book');
-    // return axios
-    //   .put(`/api/appointments/${id}`, { interview })
-    //   .then(() => setState({ ...state, appointments: allAppointments }));
-    // .catch((error) => console.log(error));
-
-    // const getSpotsForDay = (day) =>
-    //   day.appointments.length -
-    //   day.appointments.reduce(
-    //     (count, id) => (appointments[id].interview ? count + 1 : count),
-    //     0
-    //   );
-
-    // const days = state.days.map((day) => {
-    //   return day.appointments.includes(id)
-    //     ? {
-    //         ...day,
-    //         spots: getSpotsForDay(day),
-    //       }
-    //     : day;
-    // });
 
     return axios
       .put(`/api/appointments/${id}`, { interview })
