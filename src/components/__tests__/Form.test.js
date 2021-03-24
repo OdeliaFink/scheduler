@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, getByTestId } from '@testing-library/react';
 
 import { render, cleanup } from '@testing-library/react';
 
-import Form from 'components/Appointment/Form';
+import Form from 'components/appointments/Form';
 
 afterEach(cleanup);
 
@@ -45,7 +45,7 @@ describe('Form', () => {
 
   it('can successfully save after trying to submit an empty student name', () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText, queryByText } = render(
+    const { getByText, queryByText, getByTestId } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
 
@@ -54,7 +54,7 @@ describe('Form', () => {
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
 
-    fireEvent.change(getByPlaceholderText('Enter Student Name'), {
+    fireEvent.change(getByTestId('student-name-input'), {
       target: { value: 'Lydia Miller-Jones' },
     });
 

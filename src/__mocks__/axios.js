@@ -80,7 +80,23 @@ export default {
     }
   }),
   put: jest.fn((url) => {
+    console.log('put', url);
     if (url === '/api/appointments/1') {
+      return Promise.resolve({
+        status: 204,
+        statusText: 'Test',
+      });
+    }
+    if (url === '/api/appointments/2') {
+      return Promise.resolve({
+        status: 204,
+        statusText: 'Test',
+      });
+    }
+  }),
+  delete: jest.fn((url) => {
+    console.log('delete123', url);
+    if (url === 'api/appointments/2') {
       return Promise.resolve({
         status: 204,
         statusText: 'Test',

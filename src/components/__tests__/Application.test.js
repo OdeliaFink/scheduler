@@ -16,7 +16,7 @@ import {
 } from '@testing-library/react';
 
 import Application from 'components/Application';
-import axios from 'axios';
+import axios from '../../__mocks__/axios';
 
 afterEach(cleanup);
 
@@ -59,7 +59,10 @@ describe('Application', () => {
     ).find((appointment) => queryByText(appointment, 'Archie Cohen'));
     fireEvent.click(queryByAltText(appointment, 'Delete'));
     expect(
-      getByText(appointment, 'Are you sure you would like to delete?')
+      getByText(
+        appointment,
+        'Are you sure you want to delete your appointment?'
+      )
     ).toBeInTheDocument();
     fireEvent.click(queryByText(appointment, 'Confirm'));
     expect(getByText(appointment, 'Deleting')).toBeInTheDocument();
@@ -120,7 +123,10 @@ describe('Application', () => {
     ).find((appointment) => queryByText(appointment, 'Archie Cohen'));
     fireEvent.click(getByAltText(appointment, 'Delete'));
     expect(
-      getByText(appointment, /Are you sure you would like to delete?/i)
+      getByText(
+        appointment,
+        /Are you sure you want to delete your appointment?/i
+      )
     ).toBeInTheDocument();
     fireEvent.click(getByText(appointment, 'Confirm'));
     expect(getByText(appointment, 'Deleting')).toBeInTheDocument();
