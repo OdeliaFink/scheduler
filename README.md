@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+Interview Scheduler is a single-page, React application. It allows users to create, edit and delete interview appointments.
+
 ## Setup
 
 Install dependencies with `npm install`.
